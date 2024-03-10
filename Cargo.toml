@@ -1,0 +1,8 @@
+[package]
+name = "pocket"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dns-lookup = "2.0.4"
+nanoserde = "0.1.37"
