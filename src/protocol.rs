@@ -1,23 +1,11 @@
 use std::{collections::VecDeque, sync::Mutex};
 
-use nanoserde::{DeBin, SerBin};
-
 use crate::AnyError;
 
 pub trait Packet: Send + Sync {
     fn serialize(&self, buffer: &mut Vec<u8>);
 
     fn deserialize(buffer: &[u8]) -> Result<Self, AnyError> where Self: Sized;
-}
-
-impl<T: SerBin + DeBin + Send + Sync> Packet for T {
-    fn serialize(&self, buffer: &mut Vec<u8>) {
-        self.ser_bin(buffer);
-    }
-
-    fn deserialize(buffer: &[u8]) -> Result<Self, AnyError> {
-        Ok(Self::de_bin(&mut 0, buffer)?)
-    }
 }
 
 pub(crate) struct NetworkQueue<S: Packet, R: Packet> {
